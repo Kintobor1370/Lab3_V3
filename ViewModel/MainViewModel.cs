@@ -19,6 +19,7 @@ namespace ViewModel
         private int _uniform_num;
         private double[] _scope = new double[2];
         private double[] _der = new double[4];
+        private SPf _func;
         public int NonUniformNum
         {
             get
@@ -99,8 +100,39 @@ namespace ViewModel
                 OnPropertyChanged(nameof(Der2Right));
             }
         }
-        public SPf Function { get; set; }
+        public SPf Function
+        {
+            get
+            { return _func; }
+            set
+            {
+                _func = value;
+                OnPropertyChanged(nameof(Chosen_Function));
+            }
+        }
         public ObservableCollection<SPf> ComboBox_Funcs { get; set; } = new ObservableCollection<SPf>() { SPf.CubPol, SPf.Exp, SPf.Random };
+        public string Chosen_Function
+        {
+            get
+            {
+                string str = "Выбрано:\n";
+                switch (Function)
+                {
+                    case SPf.CubPol:
+                        str += "Кубический многочлен y = x^3 + 3x^2 - 6x - 18";
+                        break;
+                    case SPf.Exp:
+                        str += "Экспонента";
+                        break;
+                    case SPf.Random:
+                        str += "Генератор псевдослучайных чисел";
+                        break;
+                    default: break;
+                }
+                return str;
+            }
+        }
+
         public ObservableCollection<string> MeasuredDataCollection { get; set; }
         public ObservableCollection<string> SplinesDataCollection { get; set; }
         public IErrorReporter ErrorReporter { get; private set; }
@@ -237,6 +269,7 @@ namespace ViewModel
                 chart_data.AddSplinesData(UniformNum, _scope, SplinesData.Spline2ValueArray, false);
                 ChartData.AddSplineSeries(chart_data);
             }
+            OnPropertyChanged(nameof(ChartData.plotModel));
         }
     }
 }

@@ -46,15 +46,6 @@ namespace ViewModelTests
         }
 
         [Fact]
-        public void ErrorTest()
-        {
-            var err = new TestErrorReporter();
-            var main = new MainViewModel(err);
-            main.MakeMD.Execute(main);
-            Assert.True(err.There_Was_An_Error);
-        }
-
-        [Fact]
         public void Validation_CanExecute_Test()
         {
             var err = new TestErrorReporter();
@@ -97,7 +88,11 @@ namespace ViewModelTests
             main.PropertyChanged += new_event_reporter.OnPropertyChange;
             main.MakeMD.Execute(main);
             new_event_reporter.Event.Should().BeTrue();
-            
+
+            new_event_reporter.Reset();
+            main.UniformNum = 10;
+            main.MakeSD.Execute(main);
+            new_event_reporter.Event.Should().BeTrue();
         }
     }
 }

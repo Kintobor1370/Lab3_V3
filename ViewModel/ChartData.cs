@@ -1,6 +1,8 @@
 ﻿using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.Legends;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace ViewModel
 {
@@ -113,6 +115,7 @@ namespace ViewModel
                 SplineSeries.Title = data.legends[i + 1];
 
                 this.plotModel.Series.Add(SplineSeries);
+                this.plotModel.InvalidatePlot(true);
             }
         }
     }
